@@ -21,7 +21,8 @@ public class Computer extends Player {
         	name="曹操";
 			break;
 		default:
-//			System.out.println("输入字符不对，只能输入y/n");
+			name=null;
+			System.out.println("输入字符不对，请重新输入！");
 			break;
 		}
 		return name;
@@ -33,9 +34,5 @@ public class Computer extends Player {
 		int fist=r.nextInt(3)+1;
 		return fist;
 	}
-    public static void main(String[] args) {
-		Computer c=new Computer();
-		String name=c.inputName();
-		System.out.println(name);
-	}
+    
 }

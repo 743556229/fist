@@ -21,25 +21,44 @@ public class Judger {
 	
     //询问姓名
 	public void askName(){	
-		System.out.print("请选择对方的姓名（1：刘备2：孙权3：曹操）：");
-		computer.playName=computer.inputName();
+		boolean flag=true;
+		while(flag){
+			System.out.print("请选择对方的姓名（1：刘备2：孙权3：曹操）：");
+			computer.setPlayName(computer.inputName());
+			if(computer.getPlayName()!=null){
+				flag=false;
+			}
+		}
 		System.out.print("请输入你的姓名:");
-	    person.playName=person.inputName();
-		System.out.println(person.playName+" VS"+computer.playName+" 对战");		
+	    person.setPlayName(person.inputName());
+		System.out.println(person.getPlayName()+" VS"+computer.getPlayName()+" 对战");		
 	}
 	
 	//开始游戏
 	public void playGame(){
-		String conti = "y";
-		System.out.print("要开始吗？（y/n）：");
-		Scanner input=new Scanner(System.in);
-		String start=input.next();
+		String conti="y";
+		boolean flag=true;//设置布尔值，若不输入y/n,则重新输入
+		
+		Scanner input=new Scanner(System.in);		
+		String start;	
+		//判断是否开始，输入字符一定为y/n,否则一直循环
+		do{
+			System.out.print("要开始吗？（y/n）：");
+			start=input.next();	
+			if(start.equals("y")||start.equals("n")){	
+				flag=false;
+			}
+			else{
+				System.out.println("输入字符不对，请重新输入！");
+			}
+		}while(flag);
 		if(start.equals("n")){
 			System.out.println("已退出");
 			System.out.println("---------------------------------------------------------------");
 		}
+		//如果开始，则双方出拳
 		while(start.equals("y")&&conti.equals("y")){
-			
+			boolean flag2=true;
 			int personChoice=person.myFist();
 			int computerChoice=computer.myFist();
 			System.out.print("你出拳:");
@@ -56,7 +75,7 @@ public class Judger {
 			default:
 				break;
 			}
-			System.out.print(computer.playName+"出拳：");
+			System.out.print(computer.getPlayName()+"出拳：");
 			switch (computerChoice) {
 			case 1:
 				System.out.println("剪刀");
@@ -70,29 +89,40 @@ public class Judger {
 			default:
 				break;
 			}
+			//判断谁赢
 			if(personChoice==1 && computerChoice==3){
 				System.out.println("^_^ ^_^ ^_^哈哈，你赢了");	
-				person.winningTimes=person.winningTimes+1;
+				person.setWinningTimes(person.getWinningTimes()+1);
 			}
 			else if(personChoice==3 &&computerChoice==1){
 				System.out.println("^_^,你输了，真笨！");
-				computer.winningTimes=computer.winningTimes+1;
+				computer.setWinningTimes(computer.getWinningTimes()+1);
 			}
 			else if(personChoice==computerChoice){
 				System.out.println("平局，继续加油");	
 			}
 			else if(personChoice>computerChoice){
 				System.out.println("^_^ ^_^ ^_^哈哈，你赢了");
-				person.winningTimes=person.winningTimes+1;
+				person.setWinningTimes(person.getWinningTimes()+1);
 			}
 			else{
 				System.out.println("^_^,你输了，真笨！");
-				computer.winningTimes=computer.winningTimes+1;
+				computer.setWinningTimes(computer.getWinningTimes()+1);
 			}
 			total=total+1;
 			System.out.println();
-			System.out.print("是否进行下一轮（y/n）：");
-			conti=input.next();
+			//判断是否进行下一轮
+			do{
+				System.out.print("是否进行下一轮（y/n）：");
+				conti=input.next();	
+				if(conti.equals("y")||conti.equals("n")){	
+					flag2=false;
+				}
+				else{
+					System.out.println("输入字符不对，请重新输入！");
+				}
+			}while(flag2);
+
 			if(conti.equals("n")){
 				this.finalResult();
 			}
@@ -103,16 +133,16 @@ public class Judger {
 	//游戏结果
 	public void finalResult(){
 		System.out.println("---------------------------------------------------------------\n"
-				+computer.playName+"VS"+person.playName+"\n"
+				+computer.getPlayName()+"VS"+person.getPlayName()+"\n"
 				+"对战次数"+total+"\n\n"
 				+"姓名             得分\n"
-				+person.playName+"      "+person.winningTimes+"\n"
-				+computer.playName+"      "+computer.winningTimes+"\n"
+				+person.getPlayName()+"      "+person.getWinningTimes()+"\n"
+				+computer.getPlayName()+"      "+computer.getWinningTimes()+"\n"
 				);
-		if(person.winningTimes<computer.winningTimes){
+		if(person.getWinningTimes()<computer.getWinningTimes()){
 			System.out.println("结果：呵呵，笨笨，下次加油啊！");
 		}
-		else if(person.winningTimes>computer.winningTimes){
+		else if(person.getWinningTimes()>computer.getWinningTimes()){
 			System.out.println("结果：聪聪不错啊，赢了！！");
 		}
 		else{

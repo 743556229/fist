@@ -13,17 +13,20 @@ public class Person extends Player{
 
 	
 	public int myFist() {
-		System.out.print("请出拳（1：剪刀2：石头3：布）");
-		int fist=0;
-		Scanner input=new Scanner(System.in);
-		int choice=input.nextInt();
-		
+		boolean flag=true;
+		int choice=0;
+		while(flag){
+			System.out.print("请出拳（1：剪刀2：石头3：布）：");
+			Scanner input=new Scanner(System.in);
+			choice=input.nextInt();
+			if(1<=choice&&choice<=3){
+				flag=false;		
+			}
+			else{
+				System.out.println("输入字符不对，请重新输入！");
+			}
+		}		
 		return choice;
 	}
-	 public static void main(String[] args) {
-			Person c=new Person();
-			String name=c.inputName();
-			System.out.println(name);
-		}
 
 }
